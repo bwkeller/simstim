@@ -10,6 +10,7 @@
 <script src="js/dat.gui.min.js"></script>
 <script src="js/TrackballControls.js"></script>
 <script src="controls.js"></script>
+<script src="particles.js"></script>
 <script>
 
 var controlprops = 
@@ -19,7 +20,7 @@ var controlprops =
 
 }
 
-window.onload = addcontroller(controlprops);
+//window.onload = addcontroller(controlprops);
 
 var scene = new THREE.Scene();
 var camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000);
@@ -28,17 +29,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 camera.position.z = 1;
-
-var particlePos = new THREE.Geometry();
-for (var i=0;i<1e5;i++) {
-    particlePos.vertices.push(new THREE.Vector3(Math.random()-0.5,Math.random()-0.5,Math.random()-0.5));
-    var color = new THREE.Color();
-    color.setHSL(Math.random(), 1.0, 0.5);
-    particlePos.colors.push(color);
-}
-var particleProps = new THREE.ParticleSystemMaterial({sizeAttenuation: false, vertexColors: true});
-var particleSys = new THREE.ParticleSystem(particlePos, particleProps);
-scene.add(particleSys);
+var particles = new particles();
+particles.random_cube(1e5);
+scene.add(particles.particleSys);
 
 controls = new THREE.TrackballControls( camera );
 
