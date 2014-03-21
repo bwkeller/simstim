@@ -29,9 +29,9 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 camera.position.z = 1;
-var particles = new particles();
-particles.random_cube(1e5);
-scene.add(particles.particleSys);
+var particles = new Particles();
+particles.loadJson('agora.js')
+scene.add(particles.particleSys());
 
 controls = new THREE.TrackballControls( camera );
 
