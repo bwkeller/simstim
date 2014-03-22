@@ -9,7 +9,20 @@ function Particles (){
             this.particlePos.colors.push(color);
         }
     }
-    this.loadJson = function (url) {
+    this.loadJsonFull = function (url) {
+        var loader = new THREE.JSONLoader();
+        var http = new XMLHttpRequest();
+        http.open("GET", url, false);
+        http.send(null);
+        var json = JSON.parse(http.responseText);
+        this.particlePos = loader.parse(json, '.').geometry;
+        for(var i=0; i < json.colors.length; i++) {
+            var color = new THREE.Color();
+            color.setHSL(json.colors[i], 1.0, 0.5);
+            this.particlePos.colors.push(color);
+        }
+    }
+    this.loadJsonFull = function (url) {
         var loader = new THREE.JSONLoader();
         var http = new XMLHttpRequest();
         http.open("GET", url, false);

@@ -32,9 +32,21 @@
     var colorbar = document.getElementById('colorBar');
     var context = colorbar.getContext('2d');
     var cbGradient = context.createLinearGradient(0,0,colorbar.width,0);
-    cbGradient.addColorStop(0,'#f00');
-    cbGradient.addColorStop(0.5,'#ff0');
-    cbGradient.addColorStop(1,'#00f');
+    var loader = new THREE.JSONLoader();
+    var http = new XMLHttpRequest();
+    http.open("GET", "spectral.js", false);
+    http.send(null);
+    var colors = JSON.parse(http.responseText);
+    for(var i=0;i<colors.blue.length; i++) {
+        var color = 'rgb(';
+        color = color.concat(parseInt(256*colors.red[i][1]));
+        color = color.concat(',');
+        color = color.concat(parseInt(256*colors.green[i][1]));
+        color = color.concat(',');
+        color = color.concat(parseInt(256*colors.blue[i][1]));
+        color = color.concat(')');
+        cbGradient.addColorStop(colors.red[i][0], color);
+    }
     context.fillStyle = cbGradient;
     context.fillRect(0,0,colorbar.width,colorbar.height);
 
